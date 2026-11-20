@@ -162,11 +162,11 @@ input.addEventListener("keypress", (event) => {
                     avgCPS = (1000 * (interval) / (totalTimeElapsed));
                     avgWPM = (1000 * 60 * (interval) / (totalTimeElapsed * 5));
                 }
+                if (interval > 0)
+                    accuracy = (interval - incorrect) / interval * 100;
+                normalizedWPM = avgWPM * accuracy / 100;
+                normalizedCPS = avgCPS * accuracy / 100;
             }
-            if (interval > 0)
-                accuracy = (interval - incorrect) / interval * 100;
-            normalizedWPM = avgWPM * accuracy / 100;
-            normalizedCPS = avgCPS * accuracy / 100;
         }
         if (charCounter < randomPassageText.length && randomPassageText.charAt(charCounter) != event.key) {
             incorrect++;
