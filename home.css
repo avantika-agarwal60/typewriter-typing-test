@@ -1,0 +1,246 @@
+@import url("https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap");
+
+:root {
+    --desk: #2b3a34;
+    --paper: #f6f1e1;
+    --ink: #1d1b19;
+    --ink-faded: rgba(29, 27, 25, 0.38);
+    --ribbon: #b3261e;
+    --metal: #8d908f;
+    --line-height: 2.2rem;
+    --font-display: "Special Elite", "Courier New", monospace;
+    --font-text: "Courier Prime", "Courier New", monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    min-height: 100vh;
+    padding: 19vh 1rem 0;
+    color: var(--ink);
+    font-family: var(--font-text);
+    background:
+        radial-gradient(ellipse at top, rgba(255,255,255,0.08), transparent 60%),
+        var(--desk);
+}
+
+.machine { max-width: 62rem; margin: 0 auto; }
+
+.paper {
+    position: relative;
+    z-index: 1;
+    margin: 0 2.5rem;
+    padding: 1.5rem 2.5rem 3rem;
+    background: var(--paper);
+    box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.45);
+}
+
+.masthead { text-align: center; padding-bottom: 0.9rem; border-bottom: 2px dashed var(--ink);}
+
+#heading {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2rem, 6vw, 3.6rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.tagline { margin-top: 0.4rem; font-style: italic; opacity: 0.7; }
+
+#statbox {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 2px dashed var(--ink);
+}
+
+.stats {
+    padding: 0.7rem 0.5rem;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+}
+
+.stats:not([hidden]) ~ .stats:not([hidden]) { border-left: 2px dashed var(--ink); }
+
+.section-head {
+    margin: 1.6rem 0 0.7rem;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.typing-area { position: relative; }
+
+#passage,
+#inp {
+    font-family: var(--font-text);
+    font-size: 1.25rem;
+    line-height: var(--line-height);
+    letter-spacing: 0;
+    padding: 0.75rem 0.25rem;
+    text-align: left;
+    hyphens: none;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: normal;
+    tab-size: 4;
+}
+
+#passage {
+    min-height: calc(var(--line-height) * 6 + 1.5rem);
+    color: var(--ink-faded);
+    user-select: none;
+}
+
+#passage .correct { color: var(--ink); }
+
+#passage .wrong {
+    color: var(--ribbon);
+    background: rgba(179, 38, 30, 0.12);
+}
+
+#passage .current {
+    background: none;
+    box-shadow: inset 2px 0 0 var(--ink);
+}
+
+
+#inp {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    color: transparent;
+    caret-color: transparent;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    overflow: hidden;
+}
+
+#inp::placeholder { color: transparent; }
+
+.typing-area:focus-within { outline: 2px dashed var(--ribbon); outline-offset: 6px; }
+
+.typewriter {
+    position: sticky;         
+    z-index: 2;
+    margin-top: -1.2rem;
+    bottom: 0;       
+}
+
+.platen {
+    position: relative;
+    height: 2.2rem;
+    margin: 0 1rem;
+    border-radius: 1.1rem;
+    background: linear-gradient(#5a5c5b, #171717 55%, #000);
+    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.5);
+}
+
+.platen::before,
+.platen::after {
+    content: "";
+    position: absolute;
+    top: -0.5rem;
+    width: 1.4rem;
+    height: 3.2rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(90deg, #111, #4a4c4b 50%, #111);
+    border: 2px solid #000;
+}
+.platen::before { left: -0.9rem; }
+.platen::after  { right: -0.9rem; }
+
+.typewriter-body {
+    position: relative;
+    margin-top: -0.5rem;
+    padding: 1.6rem 1.5rem 1.2rem;
+    border-radius: 0 0 1.2rem 1.2rem;
+    background: linear-gradient(#4b4e4d, #262827);
+    border-top: 4px solid #0c0c0c;
+    box-shadow: 0 -0.5rem 1rem rgba(0, 0, 0, 0.35);
+}
+
+.typewriter-body::before {
+    content: "TYPE-O-MATIC";
+    position: absolute;
+    top: 0.35rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.05rem 0.8rem;
+    font: 0.6rem var(--font-display);
+    letter-spacing: 0.3em;
+    color: #d8c98a;
+    background: #151515;
+    border-radius: 0.2rem;
+}
+
+#keys { width: fit-content; margin: 0 auto; }
+
+.key-row {
+    display: flex;
+    justify-content: center;
+    gap: 0.45rem;
+    margin-bottom: 0.45rem;
+}
+
+.key-row:nth-child(2) { transform: translateX(0.6rem); }
+.key-row:nth-child(3) { transform: translateX(1.2rem); }
+.key-row:nth-child(4) { transform: translateX(1.8rem); }
+
+.key,
+.spacebar {
+    background: radial-gradient(circle at 35% 30%, #fffdf3, #d9d3bf);
+    border: 3px solid var(--metal);
+    box-shadow: 0 3px 0 #0c0c0c;
+    transition: transform 0.05s, box-shadow 0.05s;
+}
+
+.key {
+    display: grid;
+    place-items: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 50%;
+    font: 700 0.75rem var(--font-text);
+    color: var(--ink);
+}
+
+.spacebar { width: min(45%, 22rem); height: 1.3rem; margin: 0.2rem auto 0; border-radius: 0.7rem; }
+
+.key.down,
+.spacebar.down { transform: translateY(3px); box-shadow: 0 0 0 #0c0c0c; }
+
+.stats {
+    transition: background-color 0.12s, color 0.12s, transform 0.06s, box-shadow 0.06s;
+}
+
+@media (hover: hover) {
+    #wpm:hover, #wpm:hover ~ #avgwpm, #wpm:has(~ #avgwpm:hover), #avgwpm:hover,
+    #cps:hover, #cps:hover ~ #avgcps, #cps:has(~ #avgcps:hover), #avgcps:hover,
+    #normalizedwpm:hover, #normalizedcps:hover {
+        background-color: var(--ink);
+        color: var(--paper);
+        box-shadow: inset 0 -4px 0 var(--ribbon);   
+        transform: translateY(2px);                 
+    }
+}
+
+#wpm:active, #wpm:active ~ #avgwpm, #wpm:has(~ #avgwpm:active), #avgwpm:active,
+#cps:active, #cps:active ~ #avgcps, #cps:has(~ #avgcps:active), #avgcps:active,
+#normalizedwpm:active, #normalizedcps:active {
+    transform: translateY(4px);
+    box-shadow: inset 0 -1px 0 var(--ribbon);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stats { transition: none; }
+}
+

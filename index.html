@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Speed Test</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <div class="machine">
+    <main class="paper">
+        <header class="masthead">
+            <h1 id="heading">Typing Speed Test</h1>
+            <p class="tagline">Copy the passage below as quickly as you can.</p>
+        </header>
+
+        <div id="statbox">
+            <p hidden id="cps" class="stats cpsstats">CPS: 0</p>
+            <p hidden id="avgcps" class="stats cpsstats">avg CPS: 0</p>
+            <p id="wpm" class="stats wpmstats">WPM: 0</p>
+            <p id="avgwpm" class="stats wpmstats">avg WPM: 0</p>
+            <p id="normalizedwpm" class="stats">normalized WPM: 0</p>
+            <p hidden id="normalizedcps" class="stats">normalized CPS: 0</p>
+            <p id="accu" class="stats"> accuracy: 100%</p>
+        </div>
+
+        <h2 class="section-head">Today's passage</h2>
+        <div class="typing-area">
+        <article id="passage">
+            Inserting the paper... This may take a few seconds on the first try.
+        </article>
+        <textarea id="inp" placeholder="Start typing here..." spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+        </div>
+    </main>
+
+
+    <div class="typewriter" aria-hidden="true">
+        <div class="platen"></div>
+        <div class="typewriter-body">
+            <div id="keys"></div>
+            <div id="space" class="spacebar"></div>
+        </div>
+    </div>
+</div>
+
+    <script defer type="module" src="dist/something.js"></script>
+</body>
+</html>
