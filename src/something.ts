@@ -1,4 +1,6 @@
-import { z } from "https://esm.sh/zod";
+// import { z } from "https://esm.sh/zod";
+import * as stats from "./stats.js";
+import * as z from "zod";
 
 let logStartTime= 0;
 let currentWPM = 0;
@@ -85,6 +87,9 @@ if(!(passage instanceof HTMLElement))
 {
     throw new Error ("#passage not found");
 }
+
+input.disabled=true;
+
 const StorySchema= z.object (
 {
     _id     : z.string(),  
@@ -95,12 +100,14 @@ const StorySchema= z.object (
 });
 type story= z.infer<typeof StorySchema>;
 let randomPassage= (async function (): Promise<story> {
-const response= await fetch ("https://shortstories-api.onrender.com/");
+const response= await fetch ("https://shortstories-api.onrender.com/", { signal: AbortSignal.timeout(30_000)});
+if(!response.ok) throw new Error (`api response: ${response.status}`);
 const data: unknown= await response.json();
 return StorySchema.parse(data);
 }());
 
-randomPassage.then((resolvedStory)=>{
+randomPassage
+.then((resolvedStory)=>{
     passage.textContent= resolvedStory.story;
     randomPassageText= resolvedStory.story;
     for (let i=0; i<randomPassageText.length; i++)
@@ -113,8 +120,14 @@ randomPassage.then((resolvedStory)=>{
     passage.replaceChildren(...spans);
     caretIndex = -1;
     setCaret(input.value.length);     
+    input.disabled= false;
     input.focus();  
-});
+})
+.catch((err) => {
+        console.error("failed to load passage:", err);
+        passage.textContent= "Couldn't load a passage. Please reload to try again.";
+        input.disabled= true;
+    });
 
 
 const changeUnit= ():void =>
@@ -185,23 +198,19 @@ input.addEventListener("keypress",(event):void=>{
         const logInstTime= performance.now();
         if (!firstChar)
         {
-            currentCPS=(logInstTime - logStartTime)!=0?(1000/(logInstTime - logStartTime)): currentCPS;
+            currentCPS=stats.instantCPS(logInstTime,logStartTime,currentCPS);
 
-            currentWPM= (currentCPS*60/5);
+            currentWPM= stats.instantWPM(currentCPS);
 
-            if(logInstTime - logStartTime<=2000)
+            if(stats.affectsAverage(logStartTime-logInstTime))
             {
-                totalTimeElapsed+= logInstTime - logStartTime;
-                interval++;
-                if(totalTimeElapsed>0)
-                {
-                    avgCPS= (1000*(interval)/(totalTimeElapsed));
-                    avgWPM= (1000*60*(interval)/(totalTimeElapsed*5));
-                }
-            if(interval>0)
-            accuracy= (interval-incorrect)/interval*100;
-            normalizedWPM= avgWPM*accuracy/100;
-            normalizedCPS= avgCPS*accuracy/100;
+            totalTimeElapsed+= logInstTime - logStartTime;
+            interval++;
+            avgCPS= stats.avgCPS(interval,totalTimeElapsed);
+            avgWPM= stats.avgWPM(interval, totalTimeElapsed);
+            accuracy= stats.accuracy(interval,incorrect);
+            normalizedWPM= stats.normalized(avgWPM,accuracy);
+            normalizedCPS= stats.normalized(avgCPS,accuracy);
             } 
         }
             if(charCounter<randomPassageText.length && randomPassageText.charAt(charCounter)!=event.key)
