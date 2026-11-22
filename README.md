@@ -22,7 +22,11 @@ While developing, `npm run watch` rebuilds `dist/something.js` every time you sa
 - Random Passage fetched from API on every load (short story paragraphs- Aesop's Fables)
 - Typewriter graphic whose keys press down as you type
 - Click and carriage-return bell sounds
+- Shows a message if the passage can't be loaded, instead of hanging on "Loading passage..."
 - The page scrolls so the active line stays just above the typewriter
+  ( The passage takes a few seconds to load on the first run since it the API is on a free Render host that sleeps when idle )
+  <img width="854" height="480" alt="screen-capture-5_vBhJcUho (online-video-cutter com)" src="https://github.com/user-attachments/assets/7d02bdbd-14ee-4578-9f41-c4cddca1a4c4" />
+
 - Shows a message if the passage can't be loaded, instead of hanging on "Loading passage..."
 
 ## Tech
@@ -78,6 +82,8 @@ The browser tests mock the story API, so they don't depend on the network, and t
 The same checks run automatically on every push through GitHub Actions.
 
 ## Visuals
+<img width="854" height="480" alt="screen-capture-5_3LklTGwL (online-video-cutter com)" src="https://github.com/user-attachments/assets/6704973d-e9da-480d-b962-5fd8c9c7e030" />
+
 - Has some basic typewriter key press sounds at very slightly differing random pitches
 - the typical bell and carriage sound at every new line
 - the default load has only one line visible for the sake of aesthetic purposes but seeing how that may affect the typing speed, scrolling it up before you start typing is a valid way to use the test
